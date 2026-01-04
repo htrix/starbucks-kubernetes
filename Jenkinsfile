@@ -119,18 +119,21 @@ pipeline {
     }
 
     post {
-        always {
-            emailext (
-                subject: "Pipeline ${currentBuild.currentResult}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
-                body: """
-                    <p>Jenkins Starbucks CI/CD Pipeline</p>
-                    <p>Status: ${currentBuild.currentResult}</p>
-                    <p>Build: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
-                """,
-                to: 'mohdhtrix@gmail.com',
-                mimeType: 'text/html',
-                attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
-            )
+        cleanup {
+            cleanWs()
         }
+    //     always {
+    //         emailext (
+    //             subject: "Pipeline ${currentBuild.currentResult}: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+    //             body: """
+    //                 <p>Jenkins Starbucks CI/CD Pipeline</p>
+    //                 <p>Status: ${currentBuild.currentResult}</p>
+    //                 <p>Build: <a href="${env.BUILD_URL}">${env.BUILD_URL}</a></p>
+    //             """,
+    //             to: 'mohdhtrix@gmail.com',
+    //             mimeType: 'text/html',
+    //             attachmentsPattern: 'trivyfs.txt,trivyimage.txt'
+    //         )
+    //     }
     }
 }
