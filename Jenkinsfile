@@ -68,7 +68,13 @@ pipeline {
 
         stage('TRIVY FS SCAN') {
             steps {
-                sh 'trivy fs . --skip-db-update > trivyfs.txt'
+                sh '''
+                docker run --rm \
+                    -v $(pwd):/project \
+                    -v trivy_cache:/root/.cache/trivy \
+                    aquasec/trivy:latest \
+                    fs /project --skip-db-update > trivyfs.txt
+                '''
             }
         }
 
