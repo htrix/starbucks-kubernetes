@@ -17,22 +17,28 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                checkout([
-                  $class: 'GitSCM',
-                  branches: [[name: '*/main']],
-                  extensions: [[
-                    $class: 'CloneOption',
-                    depth: 1,
-                    noTags: true,
-                    shallow: true
-                  ]],
-                  userRemoteConfigs: [[
-                    url: 'https://github.com/htrix/starbucks-kubernetes.git',
-                    credentialsId: 'github-token'
-                  ]]
-                ])
+        // stage('Checkout') {
+        //     steps {
+        //         checkout([
+        //           $class: 'GitSCM',
+        //           branches: [[name: '*/main']],
+        //           extensions: [[
+        //             $class: 'CloneOption',
+        //             depth: 1,
+        //             noTags: true,
+        //             shallow: true
+        //           ]],
+        //           userRemoteConfigs: [[
+        //             url: 'https://github.com/htrix/starbucks-kubernetes.git',
+        //             credentialsId: 'github-token'
+        //           ]]
+        //         ])
+        //     }
+        // }
+
+        stage('Checkout from Git'){
+            steps{
+                git branch: 'main', credentialsId: 'github-token', url: 'https://github.com/htrix/starbucks-kubernetes.git'
             }
         }
 
