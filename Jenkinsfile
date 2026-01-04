@@ -68,7 +68,7 @@ pipeline {
 
         stage('Docker Build & Push') {
             steps {
-                withDockerRegistry(credentialsId: 'dockerhub-token', toolName: 'docker') {
+                withDockerRegistry(credentialsId: 'dockerhub-token') {
                     sh '''
                       docker build -t htrix/starbucks:latest .
                       docker push htrix/starbucks:latest
