@@ -66,16 +66,35 @@ pipeline {
             }
         }
 
-        stage('Docker Build & Push') {
+        stage('Build image') {
             steps {
-                withDockerRegistry(credentialsId: 'dockerhub-token') {
-                    sh '''
-                      docker build -t htrix/starbucks:latest .
-                      docker push htrix/starbucks:latest
-                    '''
+                script {
+                    // Build usando Docker do host
+                    docker.build("htrix/starbucks:latest")
                 }
             }
         }
+
+       stage('Push image') {
+        steps {
+            script {
+                docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-token') {
+                    docker.image("htrix/starbucks:latest").push()
+                }
+            }
+        }
+        }
+
+        // stage('Docker Build & Push') {
+        //     steps {
+        //         docker.withDockerRegistry('https://index.docker.io/v1/', credentialsId: 'dockerhub-token') {
+        //             sh '''
+        //               docker build -t htrix/starbucks:latest .
+        //               docker push htrix/starbucks:latest
+        //             '''
+        //         }
+        //     }
+        // }
 
         stage('TRIVY IMAGE SCAN') {
             steps {
