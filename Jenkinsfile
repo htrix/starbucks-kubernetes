@@ -1,7 +1,7 @@
 pipeline{
     agent any
     tools{
-        jdk 'jdk'
+        jdk 'jdk-17'
         nodejs 'node17'
     }
     environment {
@@ -46,7 +46,7 @@ pipeline{
         stage("Docker Build & Push"){
             steps{
                 script{
-                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
+                   withDockerRegistry(credentialsId: 'dockerhub-token', toolName: 'docker'){   
                        sh "docker build -t starbucks ."
                        sh "docker tag starbucks htrix/starbucks:latest "
                        sh "docker push htrix/starbucks:latest "

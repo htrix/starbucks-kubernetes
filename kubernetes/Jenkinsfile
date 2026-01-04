@@ -2,7 +2,7 @@ pipeline{
     agent any
     tools{
         jdk 'jdk-17'
-        nodejs 'Node16'
+        nodejs 'node17'
     }
     environment {
         SCANNER_HOME=tool 'sonar-scanner'
@@ -52,7 +52,7 @@ pipeline{
         stage("Docker Build & Push"){
             steps{
                 script{
-                   withDockerRegistry(credentialsId: 'docker', toolName: 'docker'){   
+                   withDockerRegistry(credentialsId: 'dockerhub-token', toolName: 'docker'){   
                        sh "docker build -t hotstar ."
                        sh "docker tag hotstar htrix/hotstar:latest "
                        sh "docker push htrix/hotstar:latest "
