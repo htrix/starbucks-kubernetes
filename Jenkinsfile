@@ -87,6 +87,18 @@ pipeline {
             }
         }
 
+        stage('TRIVY IMAGE SCAN') {
+            steps {
+                sh '''
+                docker run --rm \
+                    -v /var/run/docker.sock:/var/run/docker.sock \
+                    -v trivy_cache:/root/.cache/trivy \
+                    aquasec/trivy:latest \
+                    image htrix/starbucks:latest --skip-db-update > trivyimage.txt
+                '''
+            }
+        }
+
        stage('Push image') {
         steps {
             script {
