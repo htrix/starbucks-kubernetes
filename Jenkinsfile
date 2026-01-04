@@ -120,11 +120,11 @@ pipeline {
         //     }
         // }
 
-        stage('TRIVY IMAGE SCAN') {
-            steps {
-                sh 'trivy image htrix/starbucks:latest --skip-db-update > trivyimage.txt'
-            }
-        }
+        // stage('TRIVY IMAGE SCAN') {
+        //     steps {
+        //         sh 'trivy image htrix/starbucks:latest --skip-db-update > trivyimage.txt'
+        //     }
+        // }
 
         stage('Deploy') {
             steps {
