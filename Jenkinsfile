@@ -144,6 +144,14 @@ pipeline {
                 '''
             }
         }
+
+        stage('Trigger ManifestUpdate') {
+            steps {
+                build job: 'update-manifest-starbucket', parameters: [
+                    string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)
+                ]
+            }
+        }
     }
 
     post {
