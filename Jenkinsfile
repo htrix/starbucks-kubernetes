@@ -69,11 +69,21 @@ pipeline {
         stage('TRIVY FS SCAN') {
             steps {
                 sh '''
-                docker run --rm \
+                if [ ! -d trivy_cache/db ]; then
+                    echo "🔽 Trivy DB not found, downloading..."
+                    docker run --rm \
                     -v $(pwd):/project \
                     -v trivy_cache:/root/.cache/trivy \
                     aquasec/trivy:latest \
-                    fs /project --skip-db-update > trivyfs.txt
+                    fs /project
+                else
+                    echo "✅ Trivy DB found, skipping update"
+                    docker run --rm \
+                    -v $(pwd):/project \
+                    -v trivy_cache:/root/.cache/trivy \
+                    aquasec/trivy:latest \
+                    fs /project --skip-db-update
+                fi
                 '''
             }
         }
